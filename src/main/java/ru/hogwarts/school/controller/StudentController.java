@@ -18,27 +18,28 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping // http://localhost:8080/student
+    @PostMapping // POST http://localhost:8080/student
     public ResponseEntity<Student> addStudent(@RequestBody Student student){
         Student addedStudent = studentService.addStudent(student);
         return ResponseEntity.ok(addedStudent);
     }
 
-    @GetMapping("{studentId}") // http://localhost:8080/student/1
+    @GetMapping("{studentId}") // GET http://localhost:8080/student/1
     public ResponseEntity<Student> getStudentById(@PathVariable Long studentId){
         Student student = studentService.getStudentById(studentId);
         if (student == null){
+            System.out.println("null");
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/all") // http://localhost:8080/student
+    @GetMapping("/all") // GET http://localhost:8080/student/all
     public ResponseEntity<Collection<Student>> getAllStudents(){
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @PutMapping
+    @PutMapping // PUT http://localhost:8080/student
     public ResponseEntity<Student> updateStudent(@RequestBody Student student){
         Student updatedStudent = studentService.updateStudent(student);
         if (updatedStudent == null){
@@ -47,22 +48,10 @@ public class StudentController {
         return ResponseEntity.ok(updatedStudent);
     }
 
-    @DeleteMapping("{studentId}")
-    public ResponseEntity<Student> deleteStudentById(@PathVariable Long studentId){
-        Student student = studentService.deleteStudentById(studentId);
-        if (student == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
-    }
-
-    @GetMapping
-    public ResponseEntity<Collection<Student>> getStudentsFilteredByAge(@RequestParam(required = false) int studentAge){
-        Collection<Student> students = studentService.getStudentsFilteredByAge(studentAge);
-        if (students == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(students);
+    @DeleteMapping("{studentId}") // DELETE http://localhost:8080/student/1
+    public ResponseEntity deleteStudentById(@PathVariable Long studentId){
+        studentService.deleteStudentById(studentId);
+        return ResponseEntity.ok().build();
     }
 
 }

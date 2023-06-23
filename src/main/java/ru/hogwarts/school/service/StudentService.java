@@ -2,59 +2,40 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.*;
 
 @Service
 public class StudentService {
 
-    private Map<Long, Student> students;
+    private final StudentRepository studentRepository;
 
-    private Long studentId = 0L;
-
-    public StudentService() {
-        this.students = new HashMap<>();
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
 // add. get. getAll. update. delete.
 
     public Student addStudent(Student student) {
-        student.setId(++studentId);
-        students.put(studentId, student);
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student getStudentById(Long studentId) {
-        return students.get(studentId);
+        System.out.println("getStudentById");
+        return studentRepository.findById(studentId).get();
     }
 
     public Collection<Student> getAllStudents() {
-        return Collections.unmodifiableCollection(students.values());
+        return studentRepository.findAll();
     }
 
     public Student updateStudent(Student student) {
-
-        if (students.containsKey(student.getId())) {
-            students.put(student.getId(), student);
-            return student;
-        }
-        return null;
+        return studentRepository.save(student);
     }
 
-    public Student deleteStudentById(Long studentId) {
-        return students.remove(studentId);
+    public void deleteStudentById(Long studentId) {
+        studentRepository.deleteById(studentId);
     }
 
-    public Collection<Student> getStudentsFilteredByAge(int age) {
-
-        List<Student> list = new ArrayList();
-
-        for (Student student : students.values()
-             ) {
-            if (student.getAge() == age) {
-                list.add(student);
-            }
-        }
-        return Collections.unmodifiableCollection(list);
-    }
 }
