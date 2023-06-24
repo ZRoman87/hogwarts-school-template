@@ -1,6 +1,5 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -24,33 +23,30 @@ public class FacultyController {
         return ResponseEntity.ok(addedFaculty);
     }
 
-    @GetMapping("{FacultyId}") //GET http://localhost:8080/faculty/0
-    public ResponseEntity<Faculty> getFacultyById(@PathVariable Long FacultyId){
-        Faculty faculty = facultyService.getFacultyById(FacultyId);
+    @GetMapping("{id}") //GET http://localhost:8080/faculty/0
+    public ResponseEntity<Faculty> getFacultyById(@PathVariable Long id){
+        Faculty faculty = facultyService.getFacultyById(id);
         if (faculty == null){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping("/all") // GET http://localhost:8080/faculty
+    @GetMapping("/all") // GET http://localhost:8080/faculty/all
     public ResponseEntity<Collection<Faculty>> getAllFaculties(){
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
 
-    @PutMapping //PUT http://localhost:8080/faculty
-    public ResponseEntity<Faculty> updateFaculty(@RequestBody Faculty faculty){
-        Faculty updatedFaculty = facultyService.updateFaculty(faculty);
-        if (updatedFaculty == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PutMapping("/{id}") //PUT http://localhost:8080/faculty/1
+    public ResponseEntity<Faculty> updateFaculty(@PathVariable("id") long id, @RequestBody Faculty faculty){
+        Faculty updatedFaculty = facultyService.updateFaculty(id, faculty);
         return ResponseEntity.ok(updatedFaculty);
     }
 
-    @DeleteMapping("{facultyId}") // DELETE http://localhost:8080/faculty/0
-    public ResponseEntity deleteFacultyById(@PathVariable Long facultyId){
-        facultyService.deleteFacultyById(facultyId);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("{id}") // DELETE http://localhost:8080/faculty/0
+    public ResponseEntity<Faculty> deleteFacultyById(@PathVariable Long id){
+        Faculty deletedFaculty = facultyService.deleteFacultyById(id);
+        return ResponseEntity.ok(deletedFaculty);
     }
 
 }

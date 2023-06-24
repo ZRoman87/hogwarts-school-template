@@ -1,6 +1,5 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
@@ -24,11 +23,10 @@ public class StudentController {
         return ResponseEntity.ok(addedStudent);
     }
 
-    @GetMapping("{studentId}") // GET http://localhost:8080/student/1
-    public ResponseEntity<Student> getStudentById(@PathVariable Long studentId){
-        Student student = studentService.getStudentById(studentId);
+    @GetMapping("{id}") // GET http://localhost:8080/student/1
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id){
+        Student student = studentService.getStudentById(id);
         if (student == null){
-            System.out.println("null");
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(student);
@@ -39,19 +37,16 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @PutMapping // PUT http://localhost:8080/student
-    public ResponseEntity<Student> updateStudent(@RequestBody Student student){
-        Student updatedStudent = studentService.updateStudent(student);
-        if (updatedStudent == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PutMapping("/{id}") // PUT http://localhost:8080/student/1
+    public ResponseEntity<Student> updateStudent(@PathVariable("id") long id, @RequestBody Student student){
+        Student updatedStudent = studentService.updateStudent(id, student);
         return ResponseEntity.ok(updatedStudent);
     }
 
-    @DeleteMapping("{studentId}") // DELETE http://localhost:8080/student/1
-    public ResponseEntity deleteStudentById(@PathVariable Long studentId){
-        studentService.deleteStudentById(studentId);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("{id}") // DELETE http://localhost:8080/student/1
+    public ResponseEntity<Student> deleteStudentById(@PathVariable Long id){
+        Student deletedStudent = studentService.deleteStudentById(id);
+        return ResponseEntity.ok(deletedStudent);
     }
 
 }
