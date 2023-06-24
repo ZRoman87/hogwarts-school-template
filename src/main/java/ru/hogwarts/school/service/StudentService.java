@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exception.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
@@ -8,7 +9,6 @@ import java.util.*;
 
 @Service
 public class StudentService {
-
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -21,21 +21,28 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public Student getStudentById(Long studentId) {
-        System.out.println("getStudentById");
-        return studentRepository.findById(studentId).get();
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new FacultyNotFoundException(id));
     }
 
     public Collection<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public Student updateStudent(Student student) {
-        return studentRepository.save(student);
+    public Student updateStudent(Long id, Student student) {
+        studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
+        Student oldStudent = new Student();
+        oldStudent.setId(id);
+        oldStudent.setAge(student.getAge());
+        oldStudent.setName(student.getName());
+        return studentRepository.save(oldStudent);
     }
 
-    public void deleteStudentById(Long studentId) {
-        studentRepository.deleteById(studentId);
+    public Student deleteStudentById(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new FacultyNotFoundException(id));
+        studentRepository.deleteById(id);
+        return student;
     }
 
 }
