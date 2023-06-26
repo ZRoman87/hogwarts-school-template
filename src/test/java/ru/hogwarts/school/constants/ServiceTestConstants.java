@@ -12,7 +12,7 @@ public class ServiceTestConstants {
             FACULTY_1
     );
 
-    public static Student STUDENT_1 = new Student(1L,"Student_1",21);
+    public static Student STUDENT_1 = new Student();
     public static final List<Student> STUDENT_LIST = List.of(
             STUDENT_1
     );

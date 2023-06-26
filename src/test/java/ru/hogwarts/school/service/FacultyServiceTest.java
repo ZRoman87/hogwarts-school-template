@@ -7,6 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,12 +23,14 @@ import static ru.hogwarts.school.constants.ServiceTestConstants.*;
 public class FacultyServiceTest {
 
     private FacultyRepository facultyRepository;
+    private StudentRepository studentRepository;
     private FacultyService facultyService;
 
     @BeforeEach
     public void beforeEach() {
         facultyRepository = mock(FacultyRepository.class);
-        facultyService = new FacultyService(facultyRepository);
+        studentRepository = mock(StudentRepository.class);
+        facultyService = new FacultyService(facultyRepository, studentRepository);
     }
 
     @Test
