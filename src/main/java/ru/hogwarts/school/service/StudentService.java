@@ -55,4 +55,16 @@ public class StudentService {
                 .orElseThrow(() -> new FacultyNotFoundException(id));
         return student.getFaculty();
     }
+
+    public Integer getStudentsAmount(){
+        return studentRepository.getStudentsAmount();
+    }
+
+    public Integer getStudentsAverageAge(){
+        return studentRepository.getStudentsAverageAge();
+    }
+
+    public List<Student> getStudentsLastFive() {
+        return studentRepository.getStudentsLastFive();
+    }
 }

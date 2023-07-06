@@ -111,4 +111,19 @@ public class StudentController {
 
     }
 
+    @GetMapping("/amount") // GET http://localhost:8080/student/amount
+    public ResponseEntity<Integer> getStudentsAmount() {
+        return ResponseEntity.ok(studentService.getStudentsAmount());
+    }
+
+    @GetMapping("/average-age") // GET http://localhost:8080/student/average-age
+    public ResponseEntity<Integer> getStudentsAverageAge() {
+        return ResponseEntity.ok(studentService.getStudentsAverageAge());
+    }
+
+    @GetMapping("/last-five") // GET http://localhost:8080/student/last-five
+    public ResponseEntity<List<Student>> getStudentsLastFive() {
+        return ResponseEntity.ok(studentService.getStudentsLastFive());
+    }
+
 }
