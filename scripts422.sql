@@ -12,6 +12,6 @@ CREATE TABLE person
     name            VARCHAR(20),
     age             INTEGER,
     driving_ability BOOLEAN,
-    car_id          SERIAL REFERENCES car (id)
+    car_id          INTEGER REFERENCES car (id)
 )
 
