@@ -9,6 +9,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -80,5 +81,14 @@ public class StudentService {
     public List<Student> getStudentsLastFive() {
         logger.info("Was called method to get last five students");
         return studentRepository.getStudentsLastFive();
+    }
+
+    public List<String> getStudentsNameStartedWithA() {
+        return getAllStudents().stream().
+                filter(e -> e.getName().startsWith("А")).
+                map(v->v.getName().toUpperCase()).
+                sorted().
+                distinct().
+                collect(Collectors.toList());
     }
 }

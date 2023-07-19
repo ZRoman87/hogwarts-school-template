@@ -60,4 +60,14 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.getStudentsByFacultyId(id));
     }
 
+    @GetMapping("/longest-name") // GET http://localhost:8080/faculty/longest-name
+    public ResponseEntity<String> getFacultyLongestName(){
+        return ResponseEntity.ok(facultyService.getFacultyLongestName());
+    }
+
+    @GetMapping("/get-integer")
+    public ResponseEntity<Integer> getInteger() {
+        return ResponseEntity.ok(facultyService.getInteger());
+    }
+
 }
