@@ -94,44 +94,4 @@ public class StudentService {
                 collect(Collectors.toList());
     }
 
-    public Collection<Student> getAllStudentsToSout() {
-        System.out.println(this.getStudentById(2L));
-        System.out.println(this.getStudentById(3L));
-
-        new Thread(() -> {
-            System.out.println(this.getStudentById(4L));
-            System.out.println(this.getStudentById(5L));
-        }).start();
-
-        new Thread(() -> {
-            System.out.println(this.getStudentById(6L));
-            System.out.println(this.getStudentById(7L));
-        }).start();
-
-        return null;
-    }
-
-    public Collection<Student> getAllStudentsToSoutSync() {
-
-        this.printStudent(2L);
-        this.printStudent(3L);
-
-        new Thread(() -> {
-            this.printStudent(4L);
-            this.printStudent(5L);
-        }).start();
-
-        new Thread(() -> {
-            this.printStudent(6L);
-            this.printStudent(7L);
-        }).start();
-
-        return null;
-    }
-
-    public void printStudent (Long id){
-        synchronized (flag) {
-            System.out.println(this.getStudentById(id));
-        }
-    }
 }
