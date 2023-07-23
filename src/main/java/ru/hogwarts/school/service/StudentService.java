@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 public class StudentService {
     private final StudentRepository studentRepository;
 
+    public Object flag = new Object();
+
     Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public StudentService(StudentRepository studentRepository) {
@@ -29,7 +31,7 @@ public class StudentService {
     }
 
     public Student getStudentById(Long id) {
-        logger.info("Was called method to get student with id {}", id);
+        //logger.info("Was called method to get student with id {}", id);
         return studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
     }
 
@@ -68,12 +70,12 @@ public class StudentService {
         return student.getFaculty();
     }
 
-    public Integer getStudentsAmount(){
+    public Integer getStudentsAmount() {
         logger.info("Was called method to get students amount");
         return studentRepository.getStudentsAmount();
     }
 
-    public Integer getStudentsAverageAge(){
+    public Integer getStudentsAverageAge() {
         logger.info("Was called method to get students average age");
         return studentRepository.getStudentsAverageAge();
     }
@@ -86,9 +88,50 @@ public class StudentService {
     public List<String> getStudentsNameStartedWithA() {
         return getAllStudents().stream().
                 filter(e -> e.getName().startsWith("А")).
-                map(v->v.getName().toUpperCase()).
+                map(v -> v.getName().toUpperCase()).
                 sorted().
                 distinct().
                 collect(Collectors.toList());
+    }
+
+    public Collection<Student> getAllStudentsToSout() {
+        System.out.println(this.getStudentById(2L));
+        System.out.println(this.getStudentById(3L));
+
+        new Thread(() -> {
+            System.out.println(this.getStudentById(4L));
+            System.out.println(this.getStudentById(5L));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(this.getStudentById(6L));
+            System.out.println(this.getStudentById(7L));
+        }).start();
+
+        return null;
+    }
+
+    public Collection<Student> getAllStudentsToSoutSync() {
+
+        this.printStudent(2L);
+        this.printStudent(3L);
+
+        new Thread(() -> {
+            this.printStudent(4L);
+            this.printStudent(5L);
+        }).start();
+
+        new Thread(() -> {
+            this.printStudent(6L);
+            this.printStudent(7L);
+        }).start();
+
+        return null;
+    }
+
+    public void printStudent (Long id){
+        synchronized (flag) {
+            System.out.println(this.getStudentById(id));
+        }
     }
 }

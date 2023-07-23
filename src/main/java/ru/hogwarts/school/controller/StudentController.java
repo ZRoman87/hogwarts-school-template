@@ -131,4 +131,14 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentsNameStartedWithA());
     }
 
+    @GetMapping("/all/sout") // GET http://localhost:8080/student/all/sout
+    public ResponseEntity<Collection<Student>> getAllStudentsToSout() {
+        return ResponseEntity.ok(studentService.getAllStudentsToSout());
+    }
+
+    @GetMapping("/all/sout/sync") // GET http://localhost:8080/student/all/sout/sync
+    public ResponseEntity<Collection<Student>> getAllStudentsToSoutSync() {
+        return ResponseEntity.ok(studentService.getAllStudentsToSoutSync());
+    }
+
 }
