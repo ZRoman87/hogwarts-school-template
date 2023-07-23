@@ -10,6 +10,7 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -69,4 +70,20 @@ public class FacultyService {
         return studentRepository.getStudentsByFaculty_Id(id);
     }
 
+    public String getFacultyLongestName() {
+        return getAllFaculties().stream().
+                map(v->v.getName()).
+                max(Comparator.comparing(w->w.length())).
+                get();
+    }
+
+    public Integer getInteger() {
+        logger.info("Was called method to get Integer");
+        Integer s = Stream.iterate(1, a -> a +1).
+                parallel().
+                limit(1_000_000).
+                reduce(0, (a, b) -> a + b );
+        logger.info("Was finished method to get Integer");
+        return s;
+    }
 }

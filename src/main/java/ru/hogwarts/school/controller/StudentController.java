@@ -126,4 +126,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentsLastFive());
     }
 
+    @GetMapping("/all/A") // GET http://localhost:8080/student/all/А
+    public ResponseEntity<List<String>> getStudentsNameStartedWithA() {
+        return ResponseEntity.ok(studentService.getStudentsNameStartedWithA());
+    }
+
 }
