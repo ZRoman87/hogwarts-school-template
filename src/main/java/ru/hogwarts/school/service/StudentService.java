@@ -93,6 +93,7 @@ public class StudentService {
                 distinct().
                 collect(Collectors.toList());
     }
+
     public Collection<Student> getAllStudentsToSout() {
         System.out.println(this.getStudentById(2L));
         System.out.println(this.getStudentById(3L));
